@@ -1,17 +1,18 @@
 # Raccoon Workshop: Machine Learning in Robotics
 
-![Omniverse_kuka](/assets/omni_kuka.gif)
+![Omniverse_kuka](https://app.rccn.dev/assets/vid/kuka_issac.gif)
 
 ![robotic_cv](/assets/robotic_cv.png)
 
+## Overview
+In today's world, the media is flooded with buzzwords, especially "AI" (Artificial Intelligence). Many people do not fully understand the underlying mechanisms behind the scenes, and consequently, they struggle to properly integrate AI into their applications. This workshop aims to introduce the fundamental aspects of AI, specifically machine learning, and explore their potential applications in the field of Robotics. Ultimately, this knowledge may help us achieve advancements in smart construction and building automation.
 
-This workshop is designed to introduce the basics of machine learning in robotics. The workshop is divided into three parts:
+The workshop is divided into three parts:
 
-1. **Introduction to Machine Learning**: This part introduces the basics of machine learning and its applications in robotics. It covers the following topics:
-    - What is machine learning?
+1. **Introduction to Machine Learning**: This part introduces the basics of machine learning.
     - Types of machine learning
-    - Applications of machine learning in robotics
     - Machine learning libraries in Python
+    - Machine learning algorithms and examples
 2. **Introduction to Robotics**: This part introduces the basics of robotics and its applications. It covers the following topics:
     - Applications of robotics
     - Robotics libraries in Python
@@ -31,6 +32,3 @@ This workshop is designed to introduce the basics of machine learning in robotic
 To register for the workshop, please fill out the registration form [here](https://survey.rccn.dev/index.php/421812?newtest=Y&lang=en).
 
 If registration exceeds the number of available seats, we will select participants based on their year of graduation.
-
-
-
