@@ -1,5 +1,10 @@
 # Raccoon Workshop: Machine Learning in Robotics
 
+![Omniverse_kuka](/assets/omni_kuka.gif)
+
+![robotic_cv](/assets/robotic_cv.png)
+
+
 This workshop is designed to introduce the basics of machine learning in robotics. The workshop is divided into three parts:
 
 1. **Introduction to Machine Learning**: This part introduces the basics of machine learning and its applications in robotics. It covers the following topics:
