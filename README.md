@@ -1,6 +1,6 @@
 # Raccoon Workshop: Machine Learning in Robotics
 
-![Omniverse_kuka](/assets/kuka_isaac.gif)
+![Omniverse_kuka](/assets/kuka-isaac.gif)
 
 ![robotic_cv](/assets/robotic_cv.png)
 
