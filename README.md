@@ -16,14 +16,14 @@ This workshop is designed to introduce the basics of machine learning in robotic
     - Robotic Vision
 
 
-# Workshop Details
+## Workshop Details
 - Date: June 24 - 28, 2024
 - Time: 9:00 AM - 5:00 PM
 - Location: Raccoon Studio, KUKA Robot Cell, and NVIDIA Lab
 - Seats: 20
 
-# Registration
-To register for the workshop, please fill out the registration form [here](https://forms.gle/1234567890).
+## Registration
+To register for the workshop, please fill out the registration form [here](https://survey.rccn.dev/index.php/421812?newtest=Y&lang=en).
 
 If registration exceeds the number of available seats, we will select participants based on their year of graduation.
 
