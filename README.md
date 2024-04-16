@@ -25,5 +25,7 @@ This workshop is designed to introduce the basics of machine learning in robotic
 # Registration
 To register for the workshop, please fill out the registration form [here](https://forms.gle/1234567890).
 
+If registration exceeds the number of available seats, we will select participants based on their year of graduation.
+
 
 
