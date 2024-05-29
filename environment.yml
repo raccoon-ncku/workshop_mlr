@@ -6,6 +6,9 @@ dependencies:
   - python=3.11
   - pip
   - ipykernel
+  - numpy
+  - scipy
   - swig # gym dependency
+  - pybullet
   - pip:
     - gymnasium[all]
