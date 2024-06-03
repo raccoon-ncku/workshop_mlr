@@ -13,3 +13,9 @@ or update an existing environment
 ```bash
 conda env update -f environment.yml
 ```
+
+remove the environment if needed
+
+```bash
+conda env remove -n ws_mlr
+```

@@ -3,9 +3,13 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.11
+  - python=3.9.10
   - pip
   - ipykernel
   - swig # gym dependency
+  - moviepy # gym dependency for video recording
+  - seaborn # 
   - pip:
-    - gymnasium[all]
+    - gymnasium==0.28.1
+    - gymnasium[mujoco]
+    - 'stable-baselines3[extra]==2.0.0'
