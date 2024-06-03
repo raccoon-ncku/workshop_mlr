@@ -12,5 +12,5 @@ dependencies:
   - pybullet
   - pip:
     - gymnasium==0.28.1
-    - gymnasium[mujoco]
     - 'stable-baselines3[extra]==2.0.0'
+    - -e external_modules/panda-gym
