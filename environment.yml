@@ -6,9 +6,10 @@ dependencies:
   - python=3.9.10
   - pip
   - ipykernel
+  - numpy
+  - scipy
   - swig # gym dependency
-  - moviepy # gym dependency for video recording
-  - seaborn # 
+  - pybullet
   - pip:
     - gymnasium==0.28.1
     - gymnasium[mujoco]
