@@ -1,6 +1,9 @@
-[submodule "external_modules/rccn_robot_cell"]
-	path = external_modules/rccn_robot_cell
+[submodule "submodules/rccn_robot_cell"]
+	path = submodules/rccn_robot_cell
 	url = https://github.com/rccn-dev/rccn_robot_cell.git
-[submodule "external_modules/panda-gym"]
-	path = external_modules/panda-gym
+[submodule "submodules/panda-gym"]
+	path = submodules/panda-gym
 	url = https://github.com/qgallouedec/panda-gym.git
+[submodule "submodules/kuka_kr300_support"]
+	path = submodules/kuka_kr300_support
+	url = https://github.com/rccn-dev/kuka_kr300_support.git
