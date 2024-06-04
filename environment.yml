@@ -3,7 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.9.10
   - pip
   - ipykernel
   - numpy
@@ -14,4 +14,5 @@ dependencies:
   - pip:
     - gymnasium==0.29.1
     - 'stable-baselines3[extra]==2.3.2'
-    - -e external_modules/panda-gym
+    - rl_zoo3
+    - -e submodules/panda-gym
