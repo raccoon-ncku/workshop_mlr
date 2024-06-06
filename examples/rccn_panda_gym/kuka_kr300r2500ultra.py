@@ -21,12 +21,13 @@ class Kr300R2500Ultra(PyBulletRobot):
     def __init__(
             self,
             sim: PyBullet,
-            base_position: Optional[np.ndarray] = None,
+            base_position: Optional[np.ndarray] = np.zeros(3),
             control_type: str = "ee",
          )-> None:
-        base_position = base_position if base_position is not None else np.zeros(3)
+        # base_position = base_position if base_position is not None else np.zeros(3)
         self.control_type = control_type
-        n_action = 3 if self.control_type == "ee" else 6  # control (x, y z) if "ee", else, control the 7 joints
+        self.joint_count = 6
+        n_action = 3 if self.control_type == "ee" else self.joint_count  # control (x, y z) if "ee", else, control the 7 joints
         action_space = spaces.Box(-1.0, 1.0, shape=(n_action,), dtype=np.float32)
         super().__init__(
             sim,
@@ -35,7 +36,7 @@ class Kr300R2500Ultra(PyBulletRobot):
             base_position=base_position,  # the position of the base
             action_space=action_space,
             joint_indices=np.array([0,1,2,3,4,5]),  # list of the indices, as defined in the URDF
-            joint_forces=np.array([2000.0]*6),  # force applied when robot is controled (Nm)
+            joint_forces=np.array([10000,10000,10000,10000,10000,10000]),  # force applied when robot is controled (Nm)
         )
         self.neutral_joint_values = np.array([
             0.00,
@@ -48,34 +49,17 @@ class Kr300R2500Ultra(PyBulletRobot):
         self.ee_link = 7 # tool0 link in the URDF
 
     def set_action(self, action: np.ndarray) -> None:
-        # action = action.copy() # ensure action don't change
-        # action = np.clip(action, self.action_space.low, self.action_space.high)
-
-        # if self.control_type == "ee":
-        #     ee_displacement = action[:3]
-        #     target_arm_angles = self.ee_displacement_to_target_arm_angles(ee_displacement)
-
-        self.control_joints(target_angles=action)
-        
-    def set_action(self, action: np.ndarray) -> None:
         action = action.copy()  # ensure action don't change
         action = np.clip(action, self.action_space.low, self.action_space.high)
         if self.control_type == "ee":
             ee_displacement = action[:3]
             target_arm_angles = self.ee_displacement_to_target_arm_angles(ee_displacement)
         else:
-            arm_joint_ctrl = action[:7]
+            arm_joint_ctrl = action[:6]
             target_arm_angles = self.arm_joint_ctrl_to_target_arm_angles(arm_joint_ctrl)
 
-        if self.block_gripper:
-            target_fingers_width = 0
-        else:
-            fingers_ctrl = action[-1] * 0.2  # limit maximum change in position
-            fingers_width = self.get_fingers_width()
-            target_fingers_width = fingers_width + fingers_ctrl
-
-        target_angles = np.concatenate((target_arm_angles, [target_fingers_width / 2, target_fingers_width / 2]))
-        self.control_joints(target_angles=target_angles)
+        # target_arm_angles = np.concatenate((target_arm_angles))
+        self.control_joints(target_angles=target_arm_angles)
 
     def ee_displacement_to_target_arm_angles(self, ee_displacement: np.ndarray) -> np.ndarray:
         """Compute the target arm angles from the end-effector displacement.
@@ -84,9 +68,9 @@ class Kr300R2500Ultra(PyBulletRobot):
             ee_displacement (np.ndarray): End-effector displacement, as (dx, dy, dy).
 
         Returns:
-            np.ndarray: Target arm angles, as the angles of the 7 arm joints.
+            np.ndarray: Target arm angles, as the angles of the 6 arm joints.
         """
-        ee_displacement = ee_displacement[:3] * 0.05  # limit maximum change in position
+        ee_displacement = ee_displacement[:3] * 0.5  # limit maximum change in position
         # get the current position and the target position
         ee_position = self.get_ee_position()
         target_ee_position = ee_position + ee_displacement
@@ -97,6 +81,21 @@ class Kr300R2500Ultra(PyBulletRobot):
             link=self.ee_link, position=target_ee_position, orientation=np.array([1.0, 0.0, 0.0, 0.0])
         )
         return target_arm_angles
+    
+    def arm_joint_ctrl_to_target_arm_angles(self, arm_joint_ctrl: np.ndarray) -> np.ndarray:
+        """Compute the target arm angles from the arm joint control.
+
+        Args:
+            arm_joint_ctrl (np.ndarray): Control of the 6 joints.
+
+        Returns:
+            np.ndarray: Target arm angles, as the angles of the 6 arm joints.
+        """
+        arm_joint_ctrl = arm_joint_ctrl * 0.5  # limit maximum change in position
+        # get the current position and the target position
+        current_arm_joint_angles = np.array([self.get_joint_angle(joint=i) for i in range(self.joint_count)])
+        target_arm_angles = current_arm_joint_angles + arm_joint_ctrl
+        return target_arm_angles 
 
     def get_obs(self) -> np.ndarray:
         # end-effector position and velocity
@@ -123,11 +122,11 @@ class Kr300R2500Ultra(PyBulletRobot):
 
 if __name__ == "__main__":
     sim = PyBullet(render_mode="human")
-    robot = Kr300R2500Ultra(sim)
+    robot = Kr300R2500Ultra(sim, control_type="joints")
 
     import time
 
-    for _ in range(50):
-        robot.set_action(np.array([0, radians(-90), radians(90), 0, 0, 0]))
+    for _ in range(500):
+        robot.set_action(robot.neutral_joint_values)
         sim.step()
-        time.sleep(0.1)
+        time.sleep(1/30)
