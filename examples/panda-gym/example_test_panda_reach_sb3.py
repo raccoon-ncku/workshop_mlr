@@ -13,8 +13,12 @@ model = DDPG.load("PandaReach-v3-ddpg-2024-06-04-11-52")
 
 obs = vec_env.reset()
 
-import time
 while True:
-    action, _states = model.predict(obs)
-    obs, rewards, dones, info = vec_env.step(action)
-    env.render()
+    try:
+        action, _states = model.predict(obs)
+        obs, rewards, dones, info = vec_env.step(action)
+        env.render()
+    except KeyboardInterrupt:
+        break
+
+env.close()
