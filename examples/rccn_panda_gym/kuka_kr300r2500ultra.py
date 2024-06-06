@@ -1,5 +1,5 @@
 from typing import Optional
-import math
+from math import radians
 import numpy as np
 from gymnasium import spaces
 
@@ -7,7 +7,7 @@ from panda_gym.pybullet import PyBullet
 from panda_gym.envs.core import PyBulletRobot
 
 
-class KUKAKR300R2500Robot(PyBulletRobot):
+class Kr300R2500Ultra(PyBulletRobot):
     """KUKA KR 300 R2500 ultra robot in PyBullet.
 
     Args:
@@ -21,26 +21,31 @@ class KUKAKR300R2500Robot(PyBulletRobot):
     def __init__(
             self,
             sim: PyBullet,
-            block_gripper: bool = False,
             base_position: Optional[np.ndarray] = None,
             control_type: str = "ee",
          )-> None:
         base_position = base_position if base_position is not None else np.zeros(3)
-        self.block_gripper = block_gripper
         self.control_type = control_type
-        n_action = 3 if self.control_type == "ee" else 7  # control (x, y z) if "ee", else, control the 7 joints
+        n_action = 3 if self.control_type == "ee" else 6  # control (x, y z) if "ee", else, control the 7 joints
         action_space = spaces.Box(-1.0, 1.0, shape=(n_action,), dtype=np.float32)
         super().__init__(
             sim,
             body_name="KUKA KR300 R2500 ultra",
-            file_name="robots/kuka_kr300_support/urdf/kr300r2500ultra.urdf",  # the path of the URDF file
-            base_position=np.zeros(3),  # the position of the base
+            file_name="submodules/kuka_kr300_support/urdf/kr300r2500ultra.urdf",  # the path of the URDF file
+            base_position=base_position,  # the position of the base
             action_space=action_space,
-            joint_indices=np.array([1,2,3,4,5,6]),  # list of the indices, as defined in the URDF
+            joint_indices=np.array([0,1,2,3,4,5]),  # list of the indices, as defined in the URDF
             joint_forces=np.array([2000.0]*6),  # force applied when robot is controled (Nm)
         )
-        self.neutral_joint_values = np.array([0.00, 0.41, 0.00, -1.85, 0.00, 2.26, 0.79, 0.00, 0.00])
-        self.ee_link = 7
+        self.neutral_joint_values = np.array([
+            0.00,
+            radians(-90),
+            radians(90),
+            0.00,
+            0.00,
+            0.00
+            ])
+        self.ee_link = 7 # tool0 link in the URDF
 
     def set_action(self, action: np.ndarray) -> None:
         # action = action.copy() # ensure action don't change
@@ -51,6 +56,26 @@ class KUKAKR300R2500Robot(PyBulletRobot):
         #     target_arm_angles = self.ee_displacement_to_target_arm_angles(ee_displacement)
 
         self.control_joints(target_angles=action)
+        
+    def set_action(self, action: np.ndarray) -> None:
+        action = action.copy()  # ensure action don't change
+        action = np.clip(action, self.action_space.low, self.action_space.high)
+        if self.control_type == "ee":
+            ee_displacement = action[:3]
+            target_arm_angles = self.ee_displacement_to_target_arm_angles(ee_displacement)
+        else:
+            arm_joint_ctrl = action[:7]
+            target_arm_angles = self.arm_joint_ctrl_to_target_arm_angles(arm_joint_ctrl)
+
+        if self.block_gripper:
+            target_fingers_width = 0
+        else:
+            fingers_ctrl = action[-1] * 0.2  # limit maximum change in position
+            fingers_width = self.get_fingers_width()
+            target_fingers_width = fingers_width + fingers_ctrl
+
+        target_angles = np.concatenate((target_arm_angles, [target_fingers_width / 2, target_fingers_width / 2]))
+        self.control_joints(target_angles=target_angles)
 
     def ee_displacement_to_target_arm_angles(self, ee_displacement: np.ndarray) -> np.ndarray:
         """Compute the target arm angles from the end-effector displacement.
@@ -71,15 +96,22 @@ class KUKAKR300R2500Robot(PyBulletRobot):
         target_arm_angles = self.inverse_kinematics(
             link=self.ee_link, position=target_ee_position, orientation=np.array([1.0, 0.0, 0.0, 0.0])
         )
-        target_arm_angles = target_arm_angles[:7]  # remove fingers angles
         return target_arm_angles
 
-    def get_obs(self):
-        return self.get_joint_angle(joint=0)
+    def get_obs(self) -> np.ndarray:
+        # end-effector position and velocity
+        ee_position = np.array(self.get_ee_position())
+        ee_velocity = np.array(self.get_ee_velocity())
 
-    def reset(self):
-        neutral_angle = np.array([0.0]*6)
-        self.set_joint_angles(angles=neutral_angle)
+        observation = np.concatenate((ee_position, ee_velocity))
+        return observation
+
+    def reset(self) -> None:
+        self.set_joint_neutral()
+
+    def set_joint_neutral(self) -> None:
+        """Set the robot to its neutral pose."""
+        self.set_joint_angles(self.neutral_joint_values)
 
     def get_ee_position(self) -> np.ndarray:
         """Returns the position of the end-effector as (x, y, z)"""
@@ -91,11 +123,11 @@ class KUKAKR300R2500Robot(PyBulletRobot):
 
 if __name__ == "__main__":
     sim = PyBullet(render_mode="human")
-    robot = KUKAKR300R2500Robot(sim)
+    robot = Kr300R2500Ultra(sim)
 
     import time
 
     for _ in range(50):
-        robot.set_action(np.array([0, math.radians(-90), math.radians(90), 0, 0, 0]))
+        robot.set_action(np.array([0, radians(-90), radians(90), 0, 0, 0]))
         sim.step()
         time.sleep(0.1)
