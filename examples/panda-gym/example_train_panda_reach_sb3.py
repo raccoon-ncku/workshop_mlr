@@ -14,3 +14,4 @@ model.learn(TOTAL_TIMESTEPS, progress_bar=True)
 # Save the model
 model.save(OUTPUT_FILE)
 print("Model saved")
+env.close()
