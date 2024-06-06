@@ -11,8 +11,12 @@ dependencies:
   - swig # gym dependency
   - moviepy # gym recording wrapper
   - pybullet
+  - tqdm
+  - matplotlib
+  - rich
   - pip:
     - gymnasium==0.29.1
     - 'stable-baselines3[extra]==2.3.2'
+    - git+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib/
     - rl_zoo3
     - -e submodules/panda-gym
