@@ -163,3 +163,7 @@ cython_debug/
 
 # Outputs
 *.mp4
+*.zip
+
+# any tensorboard logs
+tensorboard/

@@ -3,7 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.9.10
+  - python=3.10
   - pip
   - ipykernel
   - numpy
@@ -11,12 +11,7 @@ dependencies:
   - swig # gym dependency
   - moviepy # gym recording wrapper
   - pybullet
-  - tqdm
-  - matplotlib
-  - rich
   - pip:
     - gymnasium==0.29.1
     - 'stable-baselines3[extra]==2.3.2'
-    - git+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib/
-    - rl_zoo3
-    - -e submodules/panda-gym
+    - -e external_modules/panda-gym
