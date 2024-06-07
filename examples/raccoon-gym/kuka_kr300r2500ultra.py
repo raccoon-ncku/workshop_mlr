@@ -7,7 +7,7 @@ from panda_gym.pybullet import PyBullet
 from panda_gym.envs.core import PyBulletRobot
 
 
-class KUKAKR300R2500Robot(PyBulletRobot):
+class Kr300R2500Ultra(PyBulletRobot):
     """KUKA KR 300 R2500 ultra robot in PyBullet.
 
     Args:
