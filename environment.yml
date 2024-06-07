@@ -20,3 +20,4 @@ dependencies:
     - git+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib/
     - rl_zoo3
     - -e submodules/panda-gym
+    - -e src/raccoon-gym
