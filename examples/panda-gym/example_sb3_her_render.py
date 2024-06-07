@@ -1,0 +1,53 @@
+from stable_baselines3 import HerReplayBuffer, DDPG, DQN, SAC, TD3
+from sb3_contrib import TQC
+from stable_baselines3.her.goal_selection_strategy import GoalSelectionStrategy
+from stable_baselines3.common.envs import BitFlippingEnv
+import gymnasium as gym
+import panda_gym
+
+
+model_class = TQC  # works also with SAC, DDPG and TD3
+
+# env = BitFlippingEnv(n_bits=N_BITS, continuous=model_class in [DDPG, SAC, TD3], max_steps=N_BITS)
+env = gym.make("PandaPickAndPlace-v3", render_mode="human", renderer="Tiny")
+# Available strategies (cf paper): future, final, episode
+goal_selection_strategy = "future" # equivalent to GoalSelectionStrategy.FUTURE
+
+# Initialize the model
+model = TQC(
+    "MultiInputPolicy",
+    env,
+    batch_size=2048,
+    buffer_size=1000000,
+    gamma=0.95,
+    learning_rate=0.001,
+    policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
+    replay_buffer_class=HerReplayBuffer,
+    replay_buffer_kwargs=dict(goal_selection_strategy='future', n_sampled_goal=4),
+    tau=0.05,
+    seed=3157870761,
+    verbose=1,
+)
+
+model = model_class.load("/home/ccyen/Projects/worksops/workshop_mlr/examples/panda-gym/models/20240605105457/tqc_panda_pick_and_place_980000_steps", env=env)
+
+obs, info = env.reset()
+# for _ in range(100):
+#     action, _ = model.predict(obs, deterministic=True)
+#     obs, reward, terminated, truncated, _ = env.step(action)
+#     if terminated or truncated:
+#         obs, info = env.reset()
+
+# env.close()
+import time
+while True:
+    try:
+        action, _ = model.predict(obs, deterministic=True)
+        obs, reward, terminated, truncated, _ = env.step(action)
+        time.sleep(0.1)
+        if terminated or truncated:
+            obs, info = env.reset()
+    except KeyboardInterrupt:
+        break
+
+env.close()

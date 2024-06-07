@@ -1,23 +1,22 @@
 import gymnasium as gym
 import panda_gym
-from stable_baselines3 import DDPG
+from stable_baselines3 import DDPG, HerReplayBuffer
 
-env = gym.make("PandaReach-v3", render_mode="human")
-model = DDPG(policy="MultiInputPolicy", env=env, verbose=1)
+env = gym.make("PandaFlip-v3", render_mode="human")
+
+# Create an instance of HerReplayBuffer with the environment
+# replay_buffer = HerReplayBuffer(env=env)
+model = DDPG(policy="MultiInputPolicy", replay_buffer_class=HerReplayBuffer, env=env, verbose=1)
 
 vec_env = model.get_env()
 
 del model # remove to demonstrate saving and loading
-print("Model deleted")
-model = DDPG.load("ddpg_panda")
-print("Model loaded")
+
+model = DDPG.load("ddpg_pandapush")
 
 obs = vec_env.reset()
-print("Model loaded")
-print(env)
-import time
+
 while True:
     action, _states = model.predict(obs)
     obs, rewards, dones, info = vec_env.step(action)
-    time.sleep(0.1)
     env.render()

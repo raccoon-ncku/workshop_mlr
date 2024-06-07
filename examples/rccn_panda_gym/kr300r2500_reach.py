@@ -7,6 +7,8 @@ from panda_gym.utils import distance
 
 
 class Kr300R2500UltraReach(Task):
+    """
+    Reach task for KUKA KR 300 R2500 ultra robot."""
     def __init__(
         self,
         sim,
@@ -29,7 +31,7 @@ class Kr300R2500UltraReach(Task):
         self.sim.create_table(length=1.1, width=0.7, height=0.4, x_offset=-0.3)
         self.sim.create_sphere(
             body_name="target",
-            radius=0.02,
+            radius=0.2,
             mass=0.0,
             ghost=True,
             position=np.zeros(3),
