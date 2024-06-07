@@ -32,3 +32,15 @@ The workshop is divided into three parts:
 To register for the workshop, please fill out the registration form [here](https://survey.rccn.dev/index.php/421812?newtest=Y&lang=en).
 
 If registration exceeds the number of available seats, we will select participants based on their year of graduation.
+
+## Git Commands
+to clone the repository:
+```bash
+git clone --recurse-submodules https://www.github.com/raccoon-ncku/workshop_mlr.git
+```
+
+to update the repository:
+```bash
+git pull
+git submodule update --init --recursive
+```
