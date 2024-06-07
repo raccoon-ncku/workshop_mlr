@@ -5,8 +5,8 @@ import numpy as np
 from panda_gym.envs.core import RobotTaskEnv
 from panda_gym.pybullet import PyBullet
 
-from kuka_kr300r2500ultra import Kr300R2500Ultra
-from kr300r2500ultra_reach import Kr300R2500UltraReach
+from raccoon_gym.envs.robots.kuka_kr300r2500ultra import Kr300R2500Ultra
+from raccoon_gym.envs.tasks.kr300r2500ultra_reach import Kr300R2500UltraReach
 
 
 class Kr300R2500UltraReachEnv(RobotTaskEnv):
