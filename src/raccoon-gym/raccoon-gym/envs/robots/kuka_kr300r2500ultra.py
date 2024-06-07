@@ -72,7 +72,7 @@ class Kr300R2500Ultra(PyBulletRobot):
         target_ee_position[2] = np.max((0, target_ee_position[2]))
         # compute the new joint angles
         target_arm_angles = self.inverse_kinematics(
-            link=self.ee_link, position=target_ee_position, orientation=np.array([1.0, 0.0, 0.0, 0.0])
+            link=self.ee_link, position=target_ee_position, orientation=np.array([0.0, 0.7071068, 0.0, 0.7071068])
         )
         target_arm_angles = target_arm_angles[:6]  # remove fingers angles
         return target_arm_angles
