@@ -33,7 +33,7 @@ class KUKAKR300R2500Robot(PyBulletRobot):
         super().__init__(
             sim,
             body_name="KUKA KR300 R2500 ultra",
-            file_name="robots/kuka_kr300_support/urdf/kr300r2500ultra.urdf",  # the path of the URDF file
+            file_name="submodules/kuka_kr300_support/urdf/kr300r2500ultra.urdf",  # the path of the URDF file
             base_position=base_position,  # the position of the base
             action_space=action_space,
             joint_indices=np.array([0,1,2,3,4,5]),  # list of the indices, as defined in the URDF
@@ -125,3 +125,4 @@ if __name__ == "__main__":
         robot.set_action(np.array([0, math.radians(-90), math.radians(90), 0, 0, 0]))
         print(robot.get_ee_position())
         sim.step()
+        time.sleep(0.1)
