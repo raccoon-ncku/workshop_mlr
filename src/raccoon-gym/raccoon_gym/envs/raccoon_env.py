@@ -57,17 +57,3 @@ class Kr300R2500UltraReachEnv(RobotTaskEnv):
             render_pitch=render_pitch,
             render_roll=render_roll,
         )
-
-
-if __name__ == "__main__":
-    import time
-    env = Kr300R2500UltraReachEnv(render_mode="human", renderer="tiny")
-
-    observation, info = env.reset()
-
-    for _ in range(10000):
-        action = env.action_space.sample() # random action
-        observation, reward, terminated, truncated, info = env.step(action)
-        time.sleep(0.01)
-        if terminated or truncated:
-            observation, info = env.reset()
