@@ -3,14 +3,13 @@ from typing import Optional
 import numpy as np
 
 from panda_gym.envs.core import RobotTaskEnv
-from panda_gym.envs.tasks.reach import Reach
 from panda_gym.pybullet import PyBullet
 
-from kuka_reach import KUKAReach
-from kukakr300r2500ultra import KUKAKR300R2500Robot
+from raccoon_gym.envs.robots.kuka_kr300r2500ultra import Kr300R2500Ultra
+from raccoon_gym.envs.tasks.kr300r2500ultra_reach import Kr300R2500UltraReach
 
 
-class KukaReachEnv(RobotTaskEnv):
+class Kr300R2500UltraReachEnv(RobotTaskEnv):
     """Reach task wih Panda robot.
 
     Args:
@@ -45,8 +44,8 @@ class KukaReachEnv(RobotTaskEnv):
         render_roll: float = 0,
     ) -> None:
         sim = PyBullet(render_mode=render_mode, renderer=renderer)
-        robot = KUKAKR300R2500Robot(sim, base_position=np.array([-1.5, 0.0, 0.0]), control_type=control_type)
-        task = KUKAReach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position)
+        robot = Kr300R2500Ultra(sim, base_position=np.array([-1.5, 0.0, 0.0]), control_type=control_type)
+        task = Kr300R2500UltraReach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position)
         super().__init__(
             robot,
             task,
@@ -61,13 +60,14 @@ class KukaReachEnv(RobotTaskEnv):
 
 
 if __name__ == "__main__":
-    env = KukaReachEnv(render_mode="human", renderer="tiny")
+    import time
+    env = Kr300R2500UltraReachEnv(render_mode="human", renderer="tiny")
 
     observation, info = env.reset()
 
     for _ in range(10000):
         action = env.action_space.sample() # random action
         observation, reward, terminated, truncated, info = env.step(action)
-
+        time.sleep(0.01)
         if terminated or truncated:
             observation, info = env.reset()

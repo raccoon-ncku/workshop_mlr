@@ -6,7 +6,7 @@ from panda_gym.envs.core import Task
 from panda_gym.utils import distance
 
 
-class KUKAReach(Task):
+class Kr300R2500UltraReach(Task):
     def __init__(
         self,
         sim,
