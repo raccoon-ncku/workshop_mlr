@@ -7,7 +7,7 @@ from stable_baselines3 import HerReplayBuffer
 from stable_baselines3.common.callbacks import CheckpointCallback
 from sb3_contrib import TQC
 
-TOTAL_TIMESTEPS=30_000
+TOTAL_TIMESTEPS=100_000
 ENV = "RaccoonKr300R2500UltraReach-v1"
 OUTPUT_FILE = "{}-ddpg-{}".format(ENV, datetime.now().strftime("%y%m%dT%H%M"))
 BASE_PATH = "output"
@@ -33,7 +33,7 @@ model = TQC(
 )
 
 checkpoint_callback = CheckpointCallback( 
-    save_freq=10_000,
+    save_freq=30_000,
     save_path=f"{BASE_PATH}/models/{TIMESTAMP}/", 
     name_prefix="tqc_kuka_pick_and_place"
 )  # Callback for saving the model
