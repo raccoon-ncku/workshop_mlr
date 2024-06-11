@@ -165,8 +165,15 @@ cython_debug/
 .vscode/
 
 # Outputs
+output/
+output_*/
+logs/
+logs_*/
 *.mp4
 *.zip
 
 # any tensorboard logs
 tensorboard/
+
+# project specific
+reference/
