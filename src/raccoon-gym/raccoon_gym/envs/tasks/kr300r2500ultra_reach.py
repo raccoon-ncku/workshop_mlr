@@ -26,7 +26,10 @@ class Kr300R2500UltraReach(Task):
 
     def _create_scene(self) -> None:
         self.sim.create_plane(z_offset=-0.6)
-        self.sim.create_table(length=1.1, width=1.2, height=0.4, x_offset=-0.3)
+        # self.sim.create_table(
+        #     length=1.1,
+        #     width=1.2,
+        #     height=0.4, x_offset=-0.3)
         self.sim.create_sphere(
             body_name="target",
             radius=0.15,
