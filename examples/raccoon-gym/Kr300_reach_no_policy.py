@@ -3,7 +3,7 @@ import raccoon_gym
 import time
 
 
-env = gym.make('RaccoonKr300R2500UltraReach-v1', render_mode="human")
+env = gym.make('RaccoonKr300R2500UltraReach-v1', control_type="joints",  render_mode="human")
 
 observation, info = env.reset()
 
