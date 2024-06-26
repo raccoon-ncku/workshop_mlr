@@ -34,33 +34,47 @@ to train kuka reacher:
 python -m rl_zoo3.train --algo tqc --env RaccoonKr300R2500UltraReach-v1 --conf-file hyperparams/tqc.yml --tensorboard-log ./logs --save-freq 30_000 --eval-freq 5_000 --progress
 ```
 
-
-
 To run a trained agent:
 
 ```bash
 python -m rl_zoo3.enjoy --algo ppo --env CartPole-v1 --folder ./trained_models/ppo/CartPole-v1
 ```
 
-To run a trained agent with a specific seed:
+To run a trained agent and record a video:
 
 ```bash
-python enjoy.py --algo <ALGO> --env <ENV> --folder <TRAIN_AGENT_FOLDER> --env-kwargs render_mode:human
+python -m rl_zoo3.record_video --algo tqc --env PandaReach-v3 --exp-id 1 --folder ./logs -n 100
 ```
 
-python -m rl_zoo3.record_video --algo tqc --env PandaReach-v3 --exp-id 1 --folder ./logs -n 100 --env-kwargs render_mode:rgb_array
-Raccoon Gym
-Train Reach
+## Raccoon Gym
 
+to Train KR300 Reach
+
+```sh
 python -m rl_zoo3.train \
 --algo tqc \
 --env RaccoonKr300R2500UltraReach-v1 \
+--eval-env-kwargs control_type=joints \
 --conf-file hyperparams/tqc.yml \
 --tensorboard-log ./logs \
 --save-freq 5_000 \
 --eval-freq 1_000 \
 --progress
+```
+
+to train west robot cell
+```
+python -m rl_zoo3.train \
+--algo tqc \
+--env RCCNWestRobotReach-v1 \
+--conf-file hyperparams/tqc.yml \
+--tensorboard-log ./logs \
+--save-freq 5_000 \
+--eval-freq 1_000 \
+--progress
+```
 
 Render Reach
-
-python -m rl_zoo3.record_video --algo tqc --env RaccoonKr300R2500UltraReach-v1 --exp-id 1 --folder ./logs -n 500 --env-kwargs render_mode:rgb_array
+```sh
+python -m rl_zoo3.record_video --algo tqc --env RaccoonKr300R2500UltraReach-v1 --exp-id 1 --folder ./logs -n 500
+```
