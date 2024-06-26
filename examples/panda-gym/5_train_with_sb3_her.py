@@ -18,7 +18,7 @@ SAVE_DIR = CWD / "logs" / MODEL_CLASS_NAME / (ENV + datetime.now().strftime("%y%
 OUTPUT_FILE = SAVE_DIR / "rl_model"
 
 
-env = gym.make("PandaPush-v3")
+env = gym.make(ENV)
 # Available strategies (cf paper): future, final, episode
 goal_selection_strategy = "future" # equivalent to GoalSelectionStrategy.FUTURE
 
