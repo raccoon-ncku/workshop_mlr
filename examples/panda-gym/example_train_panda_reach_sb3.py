@@ -17,7 +17,6 @@ OUTPUT_FILE = SAVE_DIR / "rl_model"
 env = gym.make("PandaReach-v3")
 model = DDPG(policy="MultiInputPolicy", env=env, verbose=1)
 
-
 # Save the model
 try:
     model.learn(TOTAL_TIMESTEPS, progress_bar=True)
