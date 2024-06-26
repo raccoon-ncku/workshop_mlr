@@ -1,6 +1,14 @@
 import gymnasium as gym
 import panda_gym
 
+# Create the environment
+# other environments:
+# PandaReach-v3
+# PandaPush-v3
+# PandaSlide-v3
+# PandaPickAndPlace-v3
+# PandaStack-v3
+# PandaFlip-v3
 env = gym.make('PandaReach-v3', render_mode="human")
 
 observation, info = env.reset()
