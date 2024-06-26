@@ -6,6 +6,9 @@ from gymnasium import spaces
 from panda_gym.pybullet import PyBullet
 from panda_gym.envs.core import PyBulletRobot
 
+# 
+import pybullet as p
+
 
 class RCCNWestRobot(PyBulletRobot):
     """Raccoon West robot in PyBullet.
@@ -34,7 +37,7 @@ class RCCNWestRobot(PyBulletRobot):
             base_position=base_position,  # the position of the base
             action_space=action_space,
             joint_indices=np.array([1,3,4,5,6,7,8]),  # list of the indices, as defined in the URDF
-            joint_forces=np.array([2000,2000,2000,2000,2000,2000,2000]),  # force applied when robot is controled (Nm)
+            joint_forces=np.array([2000.0]*7),  # force applied when robot is controled (Nm)
         )
         self.neutral_joint_values = np.array([2 ,1.57, -1.57, 1.57, 0, 0,0])
         self.ee_link = 10
@@ -115,11 +118,12 @@ class RCCNWestRobot(PyBulletRobot):
 if __name__ == "__main__":
     sim = PyBullet(render_mode="human")
     robot = RCCNWestRobot(sim, control_type="joints")
-    robot.set_action(robot.neutral_joint_values)
+
     import time
 
     while True:
-        # robot.set_action(np.array([0, math.radians(90), math.radians(-90), math.radians(90), 0, 0, 0]))
+        # robot.set_action(np.array([1, 0, math.radians(-90), math.radians(90), 0, 0, 0]))
+        robot.set_action(robot.neutral_joint_values)
         print(robot.get_ee_position())
         sim.step()
         time.sleep(0.1)
