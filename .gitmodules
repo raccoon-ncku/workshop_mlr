@@ -7,3 +7,6 @@
 [submodule "submodules/kuka_kr300_support"]
 	path = submodules/kuka_kr300_support
 	url = https://github.com/rccn-dev/kuka_kr300_support.git
+[submodule "submodules/kuka_experimental"]
+	path = submodules/kuka_experimental
+	url = https://github.com/ros-industrial/kuka_experimental.git
