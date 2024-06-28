@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<robot name="rv7f" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Include -->
+  <xacro:include filename="$(find mitsubishi_rv7f_description)/urdf/common.xacro" />
+  <xacro:include filename="$(find mitsubishi_rv7f_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find mitsubishi_rv7f_description)/urdf/rv7f/body.urdf.xacro" />
+  <xacro:include filename="$(find mitsubishi_rv7f_description)/urdf/rv7f/body.gazebo.xacro"/>
+  <xacro:include filename="$(find mitsubishi_rv7f_description)/urdf/rv7f/body.transmission.xacro"/>
+
+  <!-- Radius Limits -->
+  <xacro:property name="J1_upper_limit" value="${240*M_PI/180.0}"/>
+  <xacro:property name="J1_lower_limit" value="-${J1_upper_limit}"/>
+
+  <xacro:property name="J2_upper_limit" value="${125*M_PI/180.0}"/>
+  <xacro:property name="J2_lower_limit" value="${-115*M_PI/180.0}"/>
+
+  <xacro:property name="J3_upper_limit" value="${66*M_PI/180.0}"/>
+  <xacro:property name="J3_lower_limit" value="${-89.999999*M_PI/180.0}"/>
+
+  <xacro:property name="J4_upper_limit" value="${200*M_PI/180.0}"/>
+  <xacro:property name="J4_lower_limit" value="-${J4_upper_limit}"/>
+
+  <xacro:property name="J5_upper_limit" value="${120*M_PI/180.0}"/>
+  <xacro:property name="J5_lower_limit" value="-${J5_upper_limit}"/>
+
+  <xacro:property name="J6_upper_limit" value="${200*M_PI/180.0}"/>
+  <xacro:property name="J6_lower_limit" value="-${J6_upper_limit}"/>
+
+  <!-- Velocity Limits -->
+  <xacro:property name="J1_velocity_limit" value="${360.0*M_PI/180.0}"/>
+  <xacro:property name="J2_velocity_limit" value="${401.0*M_PI/180.0}"/>
+  <xacro:property name="J3_velocity_limit" value="${450.0*M_PI/180.0}"/>
+  <xacro:property name="J4_velocity_limit" value="${337.0*M_PI/180.0}"/>
+  <xacro:property name="J5_velocity_limit" value="${450.0*M_PI/180.0}"/>
+  <xacro:property name="J6_velocity_limit" value="${720.0*M_PI/180.0}"/>
+
+  <xacro:base_link_v1 name="base_link" mass="12.928376">
+    <inertia ixx="0.259755" ixy="-0.000334" ixz="-0.032452"
+             iyy="0.287122" iyz="-0.023950"
+             izz="0.148846"/>
+  </xacro:base_link_v1>
+
+  <xacro:link_v1 name="link_1"
+                 mass="5.855081"
+                 parent_link_name="base_link" child_link_name="link_1" joint_name="J1">
+    <inertia ixx="0.109940" ixy="-0.000021" ixz="-0.001942"
+             iyy="0.071902" iyz="-0.000051"
+             izz="0.065726"/>
+    <origin xyz="0 0 0.3995" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30.0" lower="${J1_lower_limit}" upper="${J1_upper_limit}" velocity="${J1_velocity_limit}"/>
+  </xacro:link_v1>
+
+  <xacro:link_v1 name="link_2"
+                 mass="9.260846"
+                 parent_link_name="link_1" child_link_name="link_2" joint_name="J2">
+    <inertia ixx="0.295810" ixy="-0.000221" ixz="-0.019796"
+             iyy="0.282036" iyz="0.001444"
+             izz="0.053750"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="30.0" lower="${J2_lower_limit}" upper="${J2_upper_limit}" velocity="${J2_velocity_limit}"/>
+  </xacro:link_v1>
+
+  <xacro:link_v1 name="link_3"
+                 mass="3.795239"
+                 parent_link_name="link_2" child_link_name="link_3" joint_name="J3">
+    <inertia ixx="0.014442" ixy="0.000207" ixz="0.001511"
+             iyy="0.017521" iyz="0.000026"
+             izz="0.014809"/>
+    <origin xyz="0 0 0.340" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="30.0" lower="${J3_lower_limit}" upper="${J3_upper_limit}" velocity="${J3_velocity_limit}"/>
+  </xacro:link_v1>
+
+  <xacro:link_v1 name="link_4"
+                 mass="2.764278"
+                 parent_link_name="link_3" child_link_name="link_4" joint_name="J4">
+    <inertia ixx="0.005405" ixy="-0.000329" ixz="0.000192"
+             iyy="0.080630" iyz="0.000000"
+             izz="0.081901"/>
+    <origin xyz="0.37 0 0.05" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="30.0" lower="${J4_lower_limit}" upper="${J4_upper_limit}" velocity="${J4_velocity_limit}"/>
+  </xacro:link_v1>
+
+  <xacro:link_v1 name="link_5"
+                 mass="0.580300"
+                 parent_link_name="link_4" child_link_name="link_5" joint_name="J5">
+    <inertia ixx="0.000519" ixy="0.000000" ixz="0.000026"
+             iyy="0.000937" iyz="0.000000"
+             izz="0.000827"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="30.0" lower="${J5_lower_limit}" upper="${J5_upper_limit}" velocity="${J5_velocity_limit}"/>
+  </xacro:link_v1>
+
+  <xacro:link_v1 name="link_6"
+                 mass="0.025371"
+                 parent_link_name="link_5" child_link_name="link_6" joint_name="J6">
+    <inertia ixx="0.000011" ixy="0.000000" ixz="0.000000"
+             iyy="0.000006" iyz="0.000000"
+             izz="0.000007"/>
+    <origin xyz="0.0713 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="30.0" lower="${J6_lower_limit}" upper="${J6_upper_limit}" velocity="${J6_velocity_limit}"/>
+  </xacro:link_v1>
+
+<!--   <joint name="joint_tool0" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="link_6"/>
+    <child link="tool0"/>
+  </joint>
+ -->
+
+  <!-- transmission -->
+  <xacro:simple_jp_trans_v0 name="transmission_1"
+                            joint_name="J1" actuator_name="motor_1"
+                            reduction="1"/>
+  <xacro:simple_jp_trans_v0 name="transmission_2"
+                            joint_name="J2" actuator_name="motor_2"
+                            reduction="1"/>
+  <xacro:simple_jp_trans_v0 name="transmission_3"
+                            joint_name="J3" actuator_name="motor_3"
+                            reduction="1"/>
+  <xacro:simple_jp_trans_v0 name="transmission_4"
+                            joint_name="J4" actuator_name="motor_4"
+                            reduction="1"/>
+  <xacro:simple_jp_trans_v0 name="transmission_5"
+                            joint_name="J5" actuator_name="motor_5"
+                            reduction="1"/>
+  <xacro:simple_jp_trans_v0 name="transmission_6"
+                            joint_name="J6" actuator_name="motor_6"
+                            reduction="1"/>
+
+  <!-- gazebo -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/rv7f</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+  <xacro:gazebo_link_v1 name="base_link"/>
+  <xacro:gazebo_link_v1 name="link_1"/>
+  <xacro:gazebo_link_v1 name="link_2"/>
+  <xacro:gazebo_link_v1 name="link_3"/>
+  <xacro:gazebo_link_v1 name="link_4"/>
+  <xacro:gazebo_link_v1 name="link_5"/>
+  <xacro:gazebo_link_v1 name="link_6"/>
+</robot>

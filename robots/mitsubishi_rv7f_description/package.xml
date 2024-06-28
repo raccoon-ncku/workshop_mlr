@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>mitsubishi_rv7f_description</name>
+  <version>1.0.0</version>
+  <description>The mitsubishi_rv7f_description package</description>
+
+  <maintainer email="ry0@todo.todo">ry0</maintainer>
+
+  <license>BSD</license>
+  <url type="repository">https://github.com/Nishida-Lab/mitsubishi_experimental</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+</package>
